@@ -1,0 +1,112 @@
+<meta charset="UTF-8">
+<script src="promises/axios.js"></script>
+<script src="promises/api.js"></script>
+
+
+<script>
+
+   /* const doAfter = (n) => {
+        let myPromise = new Promise((resolve, reject) => {
+            setTimeout( () => {
+                resolve(Math.random())
+            }, n*1000 )
+        });
+
+        return myPromise
+    }
+
+
+    let promise3 = doAfter(3);
+    promise3.then( () => console.log('я сработал через 3 секунд') );
+    promise3.then( () => console.log('и я тоже следом сработал через 3 секунд') );
+    promise3.then( () => console.log('и я') );*/
+
+   api.sendStudentsCountToItKamasutra(20)
+       .then(res => {
+           console.log(res.data);
+       });
+
+
+
+   function loadVacanciesPromiseV() {
+       let msVacancies
+       api.getVacanciesCountFromMicrosoft()
+           .then( msCount => {
+               msVacancies = msCount
+               console.log(msCount)
+               return api.getVacanciesCountFromGoogle()
+           } )
+           .then( gCount => {
+               console.log(gCount)
+               return api.sendStudentsCountToItKamasutra(gCount + msVacancies)
+           } )
+           .then( res => {
+               console.log('from it-kamasutra:', res.data)
+           } )
+   }
+   loadVacanciesPromiseV()
+
+
+   async function loadVacanciesAsyncAwaitV() {
+       let msCount = await api.getVacanciesCountFromMicrosoft()
+       let gCount = await api.getVacanciesCountFromGoogle()
+       let res = await api.sendStudentsCountToItKamasutra(msCount + gCount)
+
+       console.log('from it-kamasutra:', res)
+
+   }
+
+
+
+
+
+
+
+
+   let gPromise = api.getVacanciesCountFromGoogle()
+
+
+   const allPromise = Promise.all([msPromise, gPromise])
+
+   allPromise.then( (res) => {
+       let resFromMs = res[0].data.vacancies
+       let resFromG = res[1].data.vacancies
+
+       api.sendStudentsCountToItKamasutra(resFromMs + resFromG)
+           .then(res => {
+               console.log('from IT_kamaqsutra:' + res.data);
+           });
+   } )
+       .catch( ()=> {
+           alert('something went wrong')
+       } )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+

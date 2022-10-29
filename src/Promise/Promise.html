@@ -1,0 +1,89 @@
+<meta charset="UTF-8">
+<script>
+
+    /*let axios = {
+        get() {
+            let pr = new Promise( (resolve, reject) => {
+                setTimeout( () => {
+                    reject('ololo')
+                }, 3000)
+            } )
+
+            return pr
+        }
+    }
+
+
+let promise = axios.get()
+
+
+    promise.then( (message) => {
+        console.log(message)
+    } )
+        .then( (data) => {
+            console.log(data)
+        } )
+        .then()
+        .then()
+        .then()*/
+
+    //==============================================================
+
+
+    // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout( () => {
+            resolve(Math.random())
+        }, 2000 )
+    });
+
+
+    // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится. Для этого передаём в метод then колбэк-функцию)
+    myPromise.then(( ) => {
+        console.log("myPromise зарезолвился, и я узнал об этом");
+        console.log(myPromise)
+    })
+
+    const doAfter = (n) => {
+        let myPromise = new Promise((resolve, reject) => {
+            setTimeout( () => {
+                resolve(Math.random())
+            }, n )
+        });
+
+        return myPromise
+    }
+
+
+    doAfter(5000).then( () => console.log('я сработал через 5 секунд') );
+    doAfter(3000).then( () => console.log('а я сработал через 3 секунд') );
+    doAfter(10000).then( () => console.log('я сработал через 10 секунд') );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
